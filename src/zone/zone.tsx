@@ -1,30 +1,37 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Switch from './switch';
 import {Text, View} from "react-native";
 import styles from "./zone.styles";
+import { getApi, updateApi } from '../shared';
 
 interface IZoneProps {
     title: string,
     index: number
-}
+};
+
+const URL = 'https://api.github.com/users/mralexgray/repos';
 
 export default function Zone({ index, title }: IZoneProps) {
     const [state, setState] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const handleSuccess = (response: any) => {
+        setState(!!response);
+        setLoading(false);
+    };
+
+    const handleError = () => setLoading(false);
+
     const handlePress = () => {
         setLoading(true);
-        fetch('https://api.github.com/users/mralexgray/repos')
-            .then((response) => response.json())
-            .then(response => {
-                setState(!state);
-                setLoading(false);
-            })
-            .catch(error => {
-              console.error(error);
-              setLoading(false);
-            });
+        updateApi(URL, { [index]: !state }, handleSuccess, handleError);
     };
+
+    useEffect(() => {
+        setLoading(true);
+        getApi(URL, handleSuccess, handleError);
+    }, []);
 
     return (
         <View style={styles.root}>
