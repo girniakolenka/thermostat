@@ -10,14 +10,14 @@ interface IZoneProps {
     index: number
 };
 
-const URL = 'https://api.github.com/users/mralexgray/repos';
+const URL = 'https://httpbin.org/anything';
 
 export default function Zone({ index, title }: IZoneProps) {
     const [state, setState] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleSuccess = (response: any) => {
-        setState(!!response);
+    const handleSuccess = ({ json }: any) => {
+        setState(!!json[index]);
         setLoading(false);
     };
 
@@ -35,7 +35,7 @@ export default function Zone({ index, title }: IZoneProps) {
 
     return (
         <View style={styles.root}>
-            <Text>
+            <Text style={styles.titleContainer}>
                 <Text style={styles.title}>{ title } </Text>
                 (Контур { index })
             </Text>

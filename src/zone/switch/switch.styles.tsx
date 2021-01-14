@@ -9,11 +9,23 @@ const iconHeight = PixelRatio.roundToNearestPixel(70);
 export default StyleSheet.create({
     root: {
         flexDirection:'row',
-        alignItems: 'center'
+        alignItems: 'flex-start',
+        flex: 1
     },
     animation: {
-        width: 100,
+        width: iconWidth,
         height: 100
+    },
+    loading: {
+        width: iconWidth,
+        height: iconHeight,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     imageBackground: {
         width: iconWidth,
