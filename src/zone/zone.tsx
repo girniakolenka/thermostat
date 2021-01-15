@@ -17,7 +17,8 @@ export default function Zone({ index, title }: IZoneProps) {
     const [loading, setLoading] = useState(false);
 
     const handleSuccess = ({ json }: any) => {
-        setState(!!json[index]);
+        const data = json ? !!json[index] : false;
+        setState(data);
         setLoading(false);
     };
 

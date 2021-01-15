@@ -4,7 +4,7 @@ export default StyleSheet.create({
     root: {
         flexDirection: 'row',
         alignItems: 'center',
-        margin: 5
+        margin: 15
     },
     title: {
         fontWeight: 'bold'
