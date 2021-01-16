@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Switch from './switch';
-import {Text, View} from "react-native";
+import { Text, View, Alert } from 'react-native';
 import styles from "./zone.styles";
 import { getApi, updateApi } from '../shared';
 
@@ -12,28 +12,42 @@ interface IZoneProps {
 
 const ID = 'zoneId';
 const STATUS = 'heatingEnabled';
-const URL = 'https://httpbin.org/anything';
+const INTERVAL = 10000;
+const URL = 'http://192.168.1.35:8080/heat-automation/zones';
+const SUCCESS_ALERT = 'Your request has been sent successfully';
+const ERROR_ALERT = 'Something went wrong';
 
 export default function Zone({ index, title }: IZoneProps) {
     const [state, setState] = useState(false);
-    const url = `${URL}/${index}`;
+    const GET_URL = `${URL}/${index}/status`;
+    const POST_URL = `${URL}/${index}/control`;
 
-    const handleSuccess = ({ json }: any) => {
-        const data = json ? !!json[index] : false;
-        setState(data);
+    const handleSuccess = ({ heatingEnabled }: any) => {
+        setState(heatingEnabled);
     };
 
-    const handleError = () => {};
+    const handlePOSTSuccess = (response: any) => {
+        handleSuccess(response);
+        Alert.alert(SUCCESS_ALERT);
+    }
+
+    const handleError = () => Alert.alert(ERROR_ALERT);
 
     const handlePress = () => {
+        const newState = !state;
         const data = {
-            [STATUS]: !state
-        }
-        updateApi(URL, data, handleSuccess, handleError);
+            [STATUS]: newState
+        };
+        setState(newState);
+        updateApi(POST_URL, data, handlePOSTSuccess, handleError);
     };
 
     useEffect(() => {
-        getApi(URL, handleSuccess, handleError);
+        const intervalId = setInterval(() => {
+            getApi(GET_URL, handleSuccess, handleError);
+        }, INTERVAL);
+
+        return () => clearInterval(intervalId);
     }, []);
 
     return (
