@@ -2,16 +2,13 @@ import React from 'react';
 import {
     StyleSheet,
     ImageBackground,
-    TouchableOpacity,
-    View,
-    ActivityIndicator
+    TouchableOpacity
 } from 'react-native';
 
 const switchSprite =  require('./../../../assets/switch-sprite.png');
 
 interface ISwitchProps {
     state: boolean;
-    loading: boolean,
     handlePress: () => void
 };
 
@@ -20,29 +17,22 @@ const OFF_STATE = 0;
 
 import styles from './switch.styles';
 
-export default function Switch({ handlePress, state, loading }: ISwitchProps ) {
+export default function Switch({ handlePress, state }: ISwitchProps ) {
     const imageStyles =  StyleSheet.flatten([
         styles.imageStyles,
         {
-            top: state ? ON_STATE : OFF_STATE,
-            opacity: loading ? 0.1 : 1
+            top: state ? ON_STATE : OFF_STATE
         }
     ]);
-    const loadingStyles = StyleSheet.flatten(loading ? [styles.loading] : []);
 
     return (
-      <View style={styles.root}>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity style={styles.root} onPress={handlePress}>
               <ImageBackground
                   source={switchSprite}
                   style={styles.imageBackground}
                   imageStyle={imageStyles}
               />
           </TouchableOpacity>
-          <View style={loadingStyles}>
-              <ActivityIndicator animating={loading} size='large'/>
-          </View>
-      </View>
     );
 }
 

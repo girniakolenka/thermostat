@@ -12,21 +12,6 @@ export default StyleSheet.create({
         alignItems: 'flex-start',
         flex: 1
     },
-    animation: {
-        width: iconWidth,
-        height: 100
-    },
-    loading: {
-        width: iconWidth,
-        height: iconHeight,
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     imageBackground: {
         width: iconWidth,
         height: iconHeight,

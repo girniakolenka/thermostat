@@ -10,27 +10,29 @@ interface IZoneProps {
     index: number
 };
 
+const ID = 'zoneId';
+const STATUS = 'heatingEnabled';
 const URL = 'https://httpbin.org/anything';
 
 export default function Zone({ index, title }: IZoneProps) {
     const [state, setState] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const url = `${URL}/${index}`;
 
     const handleSuccess = ({ json }: any) => {
         const data = json ? !!json[index] : false;
         setState(data);
-        setLoading(false);
     };
 
-    const handleError = () => setLoading(false);
+    const handleError = () => {};
 
     const handlePress = () => {
-        setLoading(true);
-        updateApi(URL, { [index]: !state }, handleSuccess, handleError);
+        const data = {
+            [STATUS]: !state
+        }
+        updateApi(URL, data, handleSuccess, handleError);
     };
 
     useEffect(() => {
-        setLoading(true);
         getApi(URL, handleSuccess, handleError);
     }, []);
 
@@ -40,7 +42,7 @@ export default function Zone({ index, title }: IZoneProps) {
                 <Text style={styles.title}>{ title } </Text>
                 (Контур { index })
             </Text>
-            <Switch loading={loading} handlePress={handlePress} state={state}/>
+            <Switch handlePress={handlePress} state={state}/>
         </View>
     );
 }
