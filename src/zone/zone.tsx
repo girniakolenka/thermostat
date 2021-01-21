@@ -12,26 +12,30 @@ interface IZoneProps {
 
 const ID = 'zoneId';
 const STATUS = 'heatingEnabled';
-const INTERVAL = 10000;
+const INTERVAL = 5000;
 const URL = 'http://192.168.1.35:8080/heat-automation/zones';
 const SUCCESS_ALERT = 'Your request has been sent successfully';
 const ERROR_ALERT = 'Something went wrong';
 
 export default function Zone({ index, title }: IZoneProps) {
+    const [loading, setLoading] = useState(false);
     const [state, setState] = useState(false);
     const GET_URL = `${URL}/${index}/status`;
     const POST_URL = `${URL}/${index}/control`;
 
-    const handleSuccess = ({ heatingEnabled }: any) => {
+    const handleGETSuccess = ({ heatingEnabled }: any) => {
         setState(heatingEnabled);
+        if( heatingEnabled === state) {
+            setLoading(false);
+        }
     };
 
-    const handlePOSTSuccess = (response: any) => {
-        handleSuccess(response);
-        Alert.alert(SUCCESS_ALERT);
-    }
+    const handlePOSTSuccess = () => Alert.alert(SUCCESS_ALERT);
 
-    const handleError = () => Alert.alert(ERROR_ALERT);
+    const handleError = () => {
+        Alert.alert(ERROR_ALERT);
+        setLoading(false);
+    }
 
     const handlePress = () => {
         const newState = !state;
@@ -39,12 +43,17 @@ export default function Zone({ index, title }: IZoneProps) {
             [STATUS]: newState
         };
         setState(newState);
+        setLoading(true);
         updateApi(POST_URL, data, handlePOSTSuccess, handleError);
     };
 
     useEffect(() => {
+            getApi(GET_URL, handleGETSuccess, handleError);
+    }, []);
+
+    useEffect(() => {
         const intervalId = setInterval(() => {
-            getApi(GET_URL, handleSuccess, handleError);
+            getApi(GET_URL, handleGETSuccess, handleError);
         }, INTERVAL);
 
         return () => clearInterval(intervalId);
@@ -56,7 +65,7 @@ export default function Zone({ index, title }: IZoneProps) {
                 <Text style={styles.title}>{ title } </Text>
                 (Контур { index })
             </Text>
-            <Switch handlePress={handlePress} state={state}/>
+            <Switch loading={loading} handlePress={handlePress} state={state}/>
         </View>
     );
 }
