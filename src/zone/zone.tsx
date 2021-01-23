@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Switch from './switch';
 import { Text, View, Alert } from 'react-native';
 import styles from "./zone.styles";
-import { getApi, updateApi } from '../shared';
+import { getApi, getSyncApi, updateApi, useInterval } from '../shared';
 
 interface IZoneProps {
     title: string,
@@ -18,15 +18,19 @@ const SUCCESS_ALERT = 'Your request has been sent successfully';
 const ERROR_ALERT = 'Something went wrong';
 
 export default function Zone({ index, title }: IZoneProps) {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [state, setState] = useState(false);
     const GET_URL = `${URL}/${index}/status`;
     const POST_URL = `${URL}/${index}/control`;
 
-    const handleGETSuccess = ({ heatingEnabled }: any) => {
+    const handleStatusSuccess = (heatingEnabled: any) => {
+        setLoading(false);
         setState(heatingEnabled);
-        if( heatingEnabled === state) {
-            setLoading(false);
+    };
+
+    const handleGETSuccess = ({ heatingEnabled }: any) => {
+        if( heatingEnabled === state && loading) {
+            handleStatusSuccess(heatingEnabled);
         }
     };
 
@@ -48,16 +52,18 @@ export default function Zone({ index, title }: IZoneProps) {
     };
 
     useEffect(() => {
-            getApi(GET_URL, handleGETSuccess, handleError);
+        getApi(GET_URL, ({ heatingEnabled }) => {
+            handleStatusSuccess(heatingEnabled);
+        }, handleError);
     }, []);
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            getApi(GET_URL, handleGETSuccess, handleError);
-        }, INTERVAL);
+     const getData = async () => {
+        const response = await getSyncApi(GET_URL);
 
-        return () => clearInterval(intervalId);
-    }, []);
+        handleGETSuccess(response);
+    };
+
+    useInterval(getData, INTERVAL);
 
     return (
         <View style={styles.root}>

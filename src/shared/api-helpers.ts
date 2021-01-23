@@ -12,6 +12,17 @@ export const getApi = (url: string, successFn: (response: any) => void, errorFn:
         });
 }
 
+export const getSyncApi = async (url: string) => {
+    const result = await fetch(url, {
+        headers: {
+            'Accept': 'application/json'
+        },
+    });
+    const response = await result.json();
+
+    return response;
+};
+
 export const updateApi = (url: string, data:any,  successFn: (response: any) => void, errorFn: (error: any) => void) => {
     fetch(url, {
         method: 'POST',
