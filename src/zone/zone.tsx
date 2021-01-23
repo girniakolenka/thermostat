@@ -36,8 +36,8 @@ export default function Zone({ index, title }: IZoneProps) {
 
     const handlePOSTSuccess = () => Alert.alert(SUCCESS_ALERT);
 
-    const handleError = () => {
-        Alert.alert(ERROR_ALERT);
+    const handleError = (err: any) => {
+        Alert.alert(err || ERROR_ALERT);
         setLoading(false);
     }
 
@@ -58,9 +58,12 @@ export default function Zone({ index, title }: IZoneProps) {
     }, []);
 
      const getData = async () => {
-        const response = await getSyncApi(GET_URL);
-
-        handleGETSuccess(response);
+         try {
+             const response = await getSyncApi(GET_URL);
+             handleGETSuccess(response);
+         } catch(err) {
+             handleError(err);
+         }
     };
 
     useInterval(getData, INTERVAL);
