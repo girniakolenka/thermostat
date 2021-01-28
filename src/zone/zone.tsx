@@ -14,7 +14,6 @@ const ID = 'zoneId';
 const STATUS = 'heatingEnabled';
 const INTERVAL = 5000;
 const URL = 'http://192.168.1.35:8080/heat-automation/zones';
-const SUCCESS_ALERT = 'Your request has been sent successfully';
 const ERROR_ALERT = 'Something went wrong';
 
 export default function Zone({ index, title }: IZoneProps) {
@@ -35,8 +34,6 @@ export default function Zone({ index, title }: IZoneProps) {
         }
     };
 
-    const handlePOSTSuccess = () => Alert.alert(SUCCESS_ALERT);
-
     const handleError = (err: any) => {
         Alert.alert(err || ERROR_ALERT);
         setLoading(false);
@@ -49,7 +46,7 @@ export default function Zone({ index, title }: IZoneProps) {
         };
         setState(newState);
         setLoading(true);
-        updateApi(POST_URL, data, handlePOSTSuccess, handleError);
+        updateApi(POST_URL, data, () => {}, handleError);
     };
 
     useEffect(() => {
