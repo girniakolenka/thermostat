@@ -11,13 +11,12 @@ export default function App() {
         <ImageBackground
             source={backgroundImage}
             style={styles.background}
-            imageStyle={styles.backgroundImage}
         >
-            <Zone index={1} title="Ванна"/>
-            <Zone index={2} title="Гардероб"/>
-            <Zone index={3} title="Душ"/>
-            <Zone index={4} title="Коридор"/>
-            <Zone index={5} title="Кухня"/>
+            <Zone index={1} title="Bath"/>
+            <Zone index={2} title="Wardrobe"/>
+            <Zone index={3} title="Shower"/>
+            <Zone index={4} title="Corridor"/>
+            <Zone index={5} title="Kitchen"/>
             <StatusBar style="auto" />
         </ImageBackground>
     </View>
@@ -26,16 +25,15 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%'
     },
     background: {
         width: '100%',
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center'
-
-    },
-    backgroundImage: {
-        opacity: 0.7
     }
 });

@@ -1,20 +1,21 @@
 import { PixelRatio, StyleSheet } from "react-native";
 
-const width = PixelRatio.roundToNearestPixel(935);
-const height = PixelRatio.roundToNearestPixel(285);
-
-const iconWidth = PixelRatio.roundToNearestPixel(170);
-const iconHeight = PixelRatio.roundToNearestPixel(70);
+const iconWidth = PixelRatio.roundToNearestPixel(100);
+const iconHeight = PixelRatio.roundToNearestPixel(100);
 
 export default StyleSheet.create({
     root: {
-        flexDirection:'row',
-        alignItems: 'flex-start',
-        flex: 1
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'flex-end'
+    },
+    switch: {
+        alignItems: 'flex-end',
+        marginRight: 15
     },
     animation: {
         width: iconWidth,
-        height: 100
+        height: iconHeight
     },
     loading: {
         width: iconWidth,
@@ -29,13 +30,6 @@ export default StyleSheet.create({
     },
     imageBackground: {
         width: iconWidth,
-        height: iconHeight,
-        overflow: 'hidden'
-    },
-    imageStyles: {
-        resizeMode: 'cover',
-        width: width,
-        height: height,
-        left: -340
+        height: iconHeight
     }
 });

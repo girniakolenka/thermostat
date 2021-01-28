@@ -22,6 +22,7 @@ export default function Zone({ index, title }: IZoneProps) {
     const [state, setState] = useState(false);
     const GET_URL = `${URL}/${index}/status`;
     const POST_URL = `${URL}/${index}/control`;
+    const titleMessage = `${title} #${index}`;
 
     const handleStatusSuccess = (heatingEnabled: any) => {
         setLoading(false);
@@ -70,10 +71,9 @@ export default function Zone({ index, title }: IZoneProps) {
 
     return (
         <View style={styles.root}>
-            <Text style={styles.titleContainer}>
-                <Text style={styles.title}>{ title } </Text>
-                (Контур { index })
-            </Text>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>{ titleMessage }</Text>
+            </View>
             <Switch loading={loading} handlePress={handlePress} state={state}/>
         </View>
     );

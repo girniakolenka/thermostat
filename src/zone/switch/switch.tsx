@@ -7,7 +7,8 @@ import {
     ActivityIndicator
 } from 'react-native';
 
-const switchSprite =  require('./../../../assets/switch-sprite.png');
+const onImage =  require('./../../../assets/on.png');
+const offImage =  require('./../../../assets/off.png');
 
 interface ISwitchProps {
     state: boolean;
@@ -15,33 +16,29 @@ interface ISwitchProps {
     handlePress: () => void
 };
 
-const ON_STATE = -80;
-const OFF_STATE = 0;
-
 import styles from './switch.styles';
 
 export default function Switch({ handlePress, state, loading }: ISwitchProps ) {
     const imageStyles =  StyleSheet.flatten([
-        styles.imageStyles,
         {
-            top: state ? ON_STATE : OFF_STATE,
             opacity: loading ? 0.1 : 1
         }
     ]);
     const loadingStyles = StyleSheet.flatten(loading ? [styles.loading] : []);
+    const imageUrl = state ? onImage : offImage;
 
     return (
       <View style={styles.root}>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity onPress={handlePress} style={styles.switch}>
               <ImageBackground
-                  source={switchSprite}
+                  source={imageUrl}
                   style={styles.imageBackground}
                   imageStyle={imageStyles}
               />
           </TouchableOpacity>
-          <View style={loadingStyles}>
+          {loading && <View style={loadingStyles}>
               <ActivityIndicator animating={loading} size='large'/>
-          </View>
+          </View> }
       </View>
     );
 }
