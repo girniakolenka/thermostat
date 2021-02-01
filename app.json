@@ -1,15 +1,20 @@
 {
   "expo": {
-    "name": "heater",
-    "slug": "heater",
+    "name": "Heater",
+    "slug": "Heater",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/manifest_1024.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/manifest_1024.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -17,6 +22,7 @@
       "**/*"
     ],
     "ios": {
+      "icon": "./assets/manifest_1024.png",
       "supportsTablet": true
     },
     "android": {
@@ -26,7 +32,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/manifest_1024.png"
     }
   }
 }

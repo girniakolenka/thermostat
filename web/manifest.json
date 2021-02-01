@@ -1,0 +1,23 @@
+{
+  "background_color": "#000111",
+  "display": "standalone",
+  "lang": "en",
+  "name": "Heater",
+  "short_name": "Heater",
+  "start_url": "/?utm_source=web_app_manifest",
+  "orientation": "portrait",
+  "icons": [{
+    "src": "./assets/manifest_144.png",
+    "type": "image/png",
+    "sizes": "144x144",
+    "purpose": "any"
+  }, {
+    "src": "./assets/manifest_144.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }, {
+    "src": "./assets/manifest_512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }]
+}
