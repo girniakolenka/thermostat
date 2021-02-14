@@ -1,5 +1,5 @@
 # pull official base image
-FROM bycedric/expo-cli:4
+FROM bycedric/expo-cli:4 as builder
 
 # set working directory
 WORKDIR /app
@@ -15,5 +15,10 @@ RUN npm install
 # add app
 COPY . ./
 
-# start app
-CMD ["expo", "start:web", "--no-dev"]
+RUN expo build:web
+
+# production environment
+FROM nginx:stable-alpine
+COPY --from=builder /app/web-build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
