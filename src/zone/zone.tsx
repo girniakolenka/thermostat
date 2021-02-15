@@ -29,7 +29,10 @@ export default function Zone({ index, title }: IZoneProps) {
     };
 
     const handleGETSuccess = ({ heatingEnabled }: any) => {
-        if( heatingEnabled === state && loading) {
+        const isPressed = heatingEnabled === state && loading;
+        const isChanged = heatingEnabled !== state && !loading;
+
+        if( isPressed || isChanged) {
             handleStatusSuccess(heatingEnabled);
         }
     };
